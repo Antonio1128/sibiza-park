@@ -1,0 +1,7 @@
+uploads/
+.claude/
+initalis versions/
+copydesign/
+*.log
+.DS_Store
+Thumbs.db

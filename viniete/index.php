@@ -1,0 +1,55 @@
+﻿<?php
+session_start();
+require_once '../includes/auth.php';
+require_once '../config/db.php';
+$pageTitle = 'Viniete';
+
+$result = $conn->query("SELECT v.*, m.nr_inmatriculare, m.marca, m.model FROM viniete v JOIN masini m ON m.id=v.masina_id ORDER BY v.data_expirare ASC");
+$today  = date('Y-m-d');
+$soon   = date('Y-m-d', strtotime('+30 days'));
+
+require_once '../includes/header.php';
+?>
+<div class="app-wrapper">
+<?php require_once '../includes/nav.php'; ?>
+<div class="main-content">
+
+  <div class="page-header">
+    <h1>Viniete</h1>
+    <?php if (!$isAnalyst): ?><a href="add.php" class="btn btn-primary">+ Adaugă vinietă</a><?php endif; ?>
+  </div>
+
+  <div class="card">
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Mașină</th><th>Țară</th><th>Tip</th><th>Start</th><th>Expiră</th><th>Cost</th><th></th></tr></thead>
+        <tbody>
+          <?php if ($result->num_rows === 0): ?>
+          <tr><td colspan="7"><div class="empty-state"><div class="empty-icon"><?= icon('tag') ?></div><p>Nicio vinietă înregistrată.</p></div></td></tr>
+          <?php else: while ($v = $result->fetch_assoc()):
+            $exp = $v['data_expirare'];
+            $expStyle = '';
+            if ($exp < $today) $expStyle = 'style="color:#fca5a5"';
+            elseif ($exp <= $soon) $expStyle = 'style="color:#FFDCCD"';
+          ?>
+          <tr>
+            <td><strong><?= htmlspecialchars($v['nr_inmatriculare']) ?></strong> <span class="text-muted"><?= htmlspecialchars($v['marca'].' '.$v['model']) ?></span></td>
+            <td><?= htmlspecialchars($v['tara']) ?></td>
+            <td><?= htmlspecialchars($v['tip']) ?></td>
+            <td><?= fmt_date($v['data_start']) ?></td>
+            <td <?= $expStyle ?>><?= fmt_date($v['data_expirare']) ?></td>
+            <td><?= number_format($v['cost'], 2, ',', '.') ?> RON</td>
+            <td class="flex">
+              <?php if (!$isAnalyst): ?><a href="edit.php?id=<?= $v['id'] ?>" class="btn btn-sm btn-secondary">Editează</a><?php endif; ?>
+              <?php if (!$isAnalyst): ?><a href="delete.php?id=<?= $v['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Ștergi?')">Șterge</a><?php endif; ?>
+            </td>
+          </tr>
+          <?php endwhile; endif; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+<?php require_once '../includes/footer.php'; ?>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sibiza Park – Design Preview</title>
+<link rel="stylesheet" href="assets/css/style.css?v=7"/>
+<style>
+  .demo-bar {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(13,13,18,0.96); border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 99px; padding: 10px 22px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 9999; backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    font-size: 12px; font-weight: 600;
+    font-family: 'Inter', sans-serif; white-space: nowrap;
+  }
+  .demo-bar span { color: rgba(220,220,235,0.5); }
+  .demo-bar a {
+    color: #fbbf24; text-decoration: none; padding: 6px 14px;
+    border-radius: 99px; border: 1px solid rgba(251,191,36,0.22);
+    transition: all .18s;
+  }
+  .demo-bar a:hover, .demo-bar a.active {
+    background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.5); color: #fde68a;
+  }
+  .view, .view-flex { display: none !important; }
+  .view.active { display: block !important; }
+  .view-flex.active { display: flex !important; }
+  .content-panel { display: none; }
+  .content-panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     LOGIN
+══════════════════════════════════════ -->
+<div id="v-login" class="view-flex active login-body">
+  <div class="login-hero">
+    <div class="login-hero-brand">
+      <span class="login-hero-brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a0f00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px">
+          <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+          <circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>
+        </svg>
+      </span>
+      Sibiza Park
+    </div>
+    <div class="login-hero-text">
+      <div class="login-hero-eyebrow">Fleet Management Platform</div>
+      <h1 class="login-hero-title">Noi ne ocupăm<br/>de tot. <span>Tu conduci.</span></h1>
+      <p class="login-hero-sub">Uită de stresul cu documente, termene și service-uri. Platforma noastră îți gestionează automat întreaga flotă — de la RCA și ITP, la revizie și anvelope.</p>
+      <div class="login-hero-bullets">
+        <div class="login-hero-bullet">Alertele automate îți spun exact când expiră ceva. Nu mai pierzi nicio dată limită, nu mai primești amenzi, nu mai cauți prin dosare.</div>
+        <div class="login-hero-bullet">Kilometraj, costuri, intervenții, asigurări, viniete — totul centralizat și la zi. Zero hârtii, zero griji.</div>
+      </div>
+    </div>
+    <div class="login-hero-stats">
+      <div><div class="login-hero-stat-num">24/7</div><div class="login-hero-stat-lbl">Monitorizare flotă</div></div>
+      <div><div class="login-hero-stat-num">100%</div><div class="login-hero-stat-lbl">Documente digitale</div></div>
+      <div><div class="login-hero-stat-num">0€</div><div class="login-hero-stat-lbl">Amenzi pentru termen depășit</div></div>
+    </div>
+  </div>
+  <div class="login-panel">
+    <div class="login-wrap">
+      <h1 class="login-title">Bine ai revenit</h1>
+      <p class="login-sub">Autentifică-te pentru a continua în cont</p>
+      <form onsubmit="showView('v-admin');return false;">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" class="form-control" value="admin"/>
+        </div>
+        <div class="form-group">
+          <label>Parolă</label>
+          <input type="password" class="form-control" value="••••••••"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Intră în cont</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ADMIN / DASHBOARD
+══════════════════════════════════════ -->
+<div id="v-admin" class="view">
+<div class="app-wrapper">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <span class="sidebar-logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a0f00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px">
+          <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+          <circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>
+        </svg>
+      </span>
+      Sibiza Park
+    </div>
+
+    <div class="sidebar-section">General</div>
+    <a href="#" class="active" onclick="navTo(this,'dashboard')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+      Dashboard
+    </a>
+
+    <div class="sidebar-section">Gestiune</div>
+    <a href="#" onclick="navTo(this,'masini')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+      Mașini
+    </a>
+    <a href="#" onclick="navTo(this,'clienti')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Clienți
+    </a>
+    <a href="#" onclick="navTo(this,'curse')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M8.7 17.2 17 8M6 16V8a4 4 0 0 1 4-4h4"/></svg>
+      Curse
+    </a>
+
+    <div class="sidebar-section">Service & Documente</div>
+    <a href="#" onclick="navTo(this,'servicii')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      Service
+    </a>
+    <a href="#" onclick="navTo(this,'asigurari')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Asigurări
+    </a>
+    <a href="#" onclick="navTo(this,'viniete')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Viniete
+    </a>
+    <a href="#" onclick="navTo(this,'anvelope')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+      Anvelope
+    </a>
+    <a href="#" onclick="navTo(this,'itp')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      ITP
+    </a>
+
+    <div class="sidebar-section">Admin</div>
+    <a href="#" onclick="navTo(this,'utilizatori')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Utilizatori
+    </a>
+    <a href="#" onclick="navTo(this,'recenzii')">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Recenzii
+    </a>
+    <a href="#" onclick="navTo(this,'suport')" style="justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:12px">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v3a2 2 0 0 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 0 1 0-4V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 17v2M13 11v2"/></svg>
+        Suport
+      </span>
+      <span style="background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;border:2px solid var(--bg2)">3</span>
+    </a>
+
+    <div class="sidebar-footer">
+      <span class="sidebar-footer-user">
+        <span class="sidebar-footer-avatar">A</span>
+        admin
+      </span>
+      <a href="#" onclick="showView('v-login')" title="Ieșire">
+        <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── CONTENT PANELS ── -->
+  <div id="admin-content" style="flex:1;overflow:hidden">
+
+    <!-- DASHBOARD -->
+    <div class="main-content content-panel active" id="p-dashboard">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <div class="flex">
+          <span class="text-muted">Bun venit, admin!</span>
+          <div class="notif-wrap" id="notifWrap">
+            <button class="notif-btn" onclick="document.getElementById('notifWrap').classList.toggle('open')">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="notif-badge">2</span>
+            </button>
+            <div class="notif-dropdown">
+              <div class="notif-header"><span>Notificări</span><span class="notif-count">2</span></div>
+              <div class="notif-list">
+                <div class="notif-item notif-danger">
+                  <span class="notif-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                  <div class="notif-body"><div class="notif-msg">Asigurare RCA — B 123 ABC</div><div class="notif-date">01.05.2025</div></div>
+                  <span class="notif-status">Expirat</span>
+                </div>
+                <div class="notif-item notif-warning">
+                  <span class="notif-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                  <div class="notif-body"><div class="notif-msg">ITP — CJ 456 DEF</div><div class="notif-date">10.06.2025</div></div>
+                  <span class="notif-status">Curând</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-number">14</div><div class="stat-label">Mașini</div></div>
+        <div class="stat-card"><div class="stat-number">8</div><div class="stat-label">Clienți</div></div>
+        <div class="stat-card"><div class="stat-number">47</div><div class="stat-label">Intrări Service</div></div>
+        <div class="stat-card"><div class="stat-number">38.420 RON</div><div class="stat-label">Cost Total Service</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>Ultimele intrări service</h2><a href="#" class="btn btn-sm btn-secondary" onclick="navTo(document.querySelector('#admin-sidebar a:nth-child(9)'),'servicii')">Vezi toate</a></div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Mașină</th><th>Data</th><th>Tip</th><th>Km</th><th>Cost</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>B 123 ABC</strong> <span class="text-muted">Dacia Logan</span></td><td>18/05/2025</td><td><span class="badge badge-revizie">Revizie</span></td><td>87.340 km</td><td>1.250,00 RON</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+              <tr><td><strong>CJ 456 DEF</strong> <span class="text-muted">VW Golf</span></td><td>14/05/2025</td><td><span class="badge badge-reparatie">Reparație</span></td><td>112.800 km</td><td>3.800,00 RON</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+              <tr><td><strong>IS 789 GHI</strong> <span class="text-muted">Skoda Octavia</span></td><td>10/05/2025</td><td><span class="badge badge-accident">Accident</span></td><td>54.200 km</td><td>12.000,00 RON</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+              <tr><td><strong>TM 321 JKL</strong> <span class="text-muted">Ford Transit</span></td><td>05/05/2025</td><td><span class="badge badge-revizie">Revizie</span></td><td>200.100 km</td><td>980,00 RON</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+              <tr><td><strong>CT 654 MNO</strong> <span class="text-muted">Renault Megane</span></td><td>01/05/2025</td><td><span class="badge badge-vopsitorie">Vopsitorie</span></td><td>67.450 km</td><td>4.500,00 RON</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAȘINI -->
+    <div class="main-content content-panel" id="p-masini">
+      <div class="page-header"><h1>Mașini</h1><a href="#" class="btn btn-primary">+ Adaugă mașină</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th></th><th>Nr. înmatriculare</th><th>Marcă / Model</th><th>An</th><th>Motor</th><th>Km</th><th>Client</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="width:52px;padding:6px 8px 6px 14px"><div style="width:44px;height:36px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--muted2)"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg></div></td>
+                <td><strong>B 123 ABC</strong></td><td>Dacia Logan</td><td>2020</td><td>Diesel</td><td>87.340 km</td><td>Ionescu SRL</td>
+                <td class="flex"><a href="#" class="btn btn-sm btn-secondary">Vezi</a><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td>
+              </tr>
+              <tr>
+                <td style="width:52px;padding:6px 8px 6px 14px"><div style="width:44px;height:36px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--muted2)"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg></div></td>
+                <td><strong>CJ 456 DEF</strong></td><td>VW Golf</td><td>2019</td><td>Benzina</td><td>112.800 km</td><td>Popescu &amp; Fii</td>
+                <td class="flex"><a href="#" class="btn btn-sm btn-secondary">Vezi</a><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td>
+              </tr>
+              <tr>
+                <td style="width:52px;padding:6px 8px 6px 14px"><div style="width:44px;height:36px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--muted2)"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg></div></td>
+                <td><strong>IS 789 GHI</strong></td><td>Skoda Octavia</td><td>2021</td><td>Hybrid</td><td>54.200 km</td><td>Duma Trans SRL</td>
+                <td class="flex"><a href="#" class="btn btn-sm btn-secondary">Vezi</a><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENȚI -->
+    <div class="main-content content-panel" id="p-clienti">
+      <div class="page-header"><h1>Clienți</h1><a href="#" class="btn btn-primary">+ Adaugă client</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Nume</th><th>Telefon</th><th>Email</th><th>Nr. permis</th><th>Expiră permis</th><th>Mașini</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>Ionescu SRL</strong></td><td>0721 123 456</td><td>ionescu@email.ro</td><td>B1234567</td><td>15/08/2026</td><td>3</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>Popescu &amp; Fii</strong></td><td>0745 987 654</td><td>popescu@firma.ro</td><td>CJ9876543</td><td style="color:#fca5a5">12/03/2025</td><td>1</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>Duma Trans SRL</strong></td><td>0733 555 111</td><td>duma@trans.ro</td><td>IS5551234</td><td>30/11/2026</td><td>4</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURSE -->
+    <div class="main-content content-panel" id="p-curse">
+      <div class="page-header"><h1>Curse</h1><a href="#" class="btn btn-primary">+ Adaugă cursă</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Data</th><th>Mașină</th><th>Destinație</th><th>Km start</th><th>Km final</th><th>Distanță</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>22/05/2025</td><td><strong>B 123 ABC</strong></td><td>București – Cluj</td><td>87.000 km</td><td>87.470 km</td><td>470 km</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Vezi</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td>20/05/2025</td><td><strong>CJ 456 DEF</strong></td><td>Cluj – Timișoara</td><td>112.500 km</td><td>112.800 km</td><td>300 km</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Vezi</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td>18/05/2025</td><td><strong>TM 321 JKL</strong></td><td>Timișoara – Arad</td><td>199.900 km</td><td>200.100 km</td><td>200 km</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Vezi</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE -->
+    <div class="main-content content-panel" id="p-servicii">
+      <div class="page-header"><h1>Service</h1><a href="#" class="btn btn-primary">+ Adaugă intrare</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Mașină</th><th>Data</th><th>Tip</th><th>Km</th><th>Cost total</th><th>Service extern</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>B 123 ABC</strong> <span class="text-muted">Logan</span></td><td>18/05/2025</td><td><span class="badge badge-revizie">Revizie</span></td><td>87.340 km</td><td>1.250,00 RON</td><td>Auto Expert SRL</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+              <tr><td><strong>CJ 456 DEF</strong> <span class="text-muted">Golf</span></td><td>14/05/2025</td><td><span class="badge badge-reparatie">Reparație</span></td><td>112.800 km</td><td>3.800,00 RON</td><td>VW Service Cluj</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+              <tr><td><strong>IS 789 GHI</strong> <span class="text-muted">Octavia</span></td><td>10/05/2025</td><td><span class="badge badge-accident">Accident</span></td><td>54.200 km</td><td>12.000,00 RON</td><td>Carrosserie Iași</td><td><a href="#" class="btn btn-sm btn-secondary">Vezi</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASIGURĂRI -->
+    <div class="main-content content-panel" id="p-asigurari">
+      <div class="page-header"><h1>Asigurări</h1><a href="#" class="btn btn-primary">+ Adaugă asigurare</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Mașină</th><th>Tip</th><th>Companie</th><th>Nr. poliță</th><th>Start</th><th>Expiră</th><th>Preț</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>B 123 ABC</strong></td><td><span class="badge badge-RCA">RCA</span></td><td>Allianz</td><td>RCA-2024-001</td><td>01/05/2024</td><td style="color:#fca5a5">01/05/2025</td><td>850 RON</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>CJ 456 DEF</strong></td><td><span class="badge badge-CASCO">CASCO</span></td><td>Omniasig</td><td>CAS-2024-045</td><td>15/03/2025</td><td>15/03/2026</td><td>2.400 RON</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>IS 789 GHI</strong></td><td><span class="badge badge-RCA">RCA</span></td><td>Groupama</td><td>RCA-2025-112</td><td>01/01/2025</td><td>01/01/2026</td><td>720 RON</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VINIETE -->
+    <div class="main-content content-panel" id="p-viniete">
+      <div class="page-header"><h1>Viniete</h1><a href="#" class="btn btn-primary">+ Adaugă vinietă</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Mașină</th><th>Țară</th><th>Tip</th><th>Start</th><th>Expiră</th><th>Cost</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>B 123 ABC</strong></td><td>România</td><td>Anuală</td><td>01/01/2025</td><td>31/12/2025</td><td>28 EUR</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>CJ 456 DEF</strong></td><td>Austria</td><td>10 zile</td><td>10/05/2025</td><td style="color:#fdba74">20/05/2025</td><td>9 EUR</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANVELOPE -->
+    <div class="main-content content-panel" id="p-anvelope">
+      <div class="page-header"><h1>Anvelope</h1><a href="#" class="btn btn-primary">+ Adaugă set</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Mașină</th><th>Sezon</th><th>Marcă</th><th>Dimensiune</th><th>Tip</th><th>Stare</th><th>Buc.</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>B 123 ABC</strong></td><td><span class="badge badge-RCA">Vară</span></td><td>Michelin</td><td>205/55 R16</td><td>Anvelopă</td><td><span class="badge badge-activ">Montate</span></td><td>4</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>B 123 ABC</strong></td><td><span class="badge badge-revizie">Iarnă</span></td><td>Continental</td><td>205/55 R16</td><td>Roată completă</td><td><span class="badge badge-inactiv">Depozitate</span></td><td>4</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>CJ 456 DEF</strong></td><td><span class="badge badge-RCA">Vară</span></td><td>Pirelli</td><td>225/45 R17</td><td>Anvelopă</td><td><span class="badge badge-activ">Montate</span></td><td>4</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITP -->
+    <div class="main-content content-panel" id="p-itp">
+      <div class="page-header"><h1>ITP</h1><a href="#" class="btn btn-primary">+ Adaugă ITP</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Mașină</th><th>Data efectuare</th><th>Data expirare</th><th>Stație</th><th>Cost</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>B 123 ABC</strong></td><td>10/04/2024</td><td>10/04/2026</td><td>RAR București</td><td>180 RON</td><td><span class="badge badge-activ">Valabil</span></td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>CJ 456 DEF</strong></td><td>08/06/2024</td><td style="color:#fdba74">08/06/2025</td><td>RAR Cluj</td><td>160 RON</td><td><span class="badge badge-reparatie">Expiră curând</span></td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>IS 789 GHI</strong></td><td>15/01/2025</td><td>15/01/2027</td><td>RAR Iași</td><td>175 RON</td><td><span class="badge badge-activ">Valabil</span></td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- UTILIZATORI -->
+    <div class="main-content content-panel" id="p-utilizatori">
+      <div class="page-header"><h1>Utilizatori</h1><a href="#" class="btn btn-primary">+ Adaugă utilizator</a></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Username</th><th>Email</th><th>Rol</th><th>Data creare</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>admin</strong></td><td>admin@sibizapark.ro</td><td><span class="badge badge-admin">Admin</span></td><td>01/01/2025</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a></td></tr>
+              <tr><td><strong>analyst1</strong></td><td>analyst@sibizapark.ro</td><td><span class="badge badge-analyst">Analyst</span></td><td>15/01/2025</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+              <tr><td><strong>ion.client</strong></td><td>ion@ionescu.ro</td><td><span class="badge badge-client">Client</span></td><td>20/01/2025</td><td class="flex"><a href="#" class="btn btn-sm btn-secondary">Editează</a><a href="#" class="btn btn-sm btn-danger">Șterge</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENZII -->
+    <div class="main-content content-panel" id="p-recenzii">
+      <div class="page-header"><h1>Recenzii</h1></div>
+      <div class="reviews-summary">
+        <div class="reviews-avg">4,6</div>
+        <div>
+          <div class="reviews-stars-big">
+            <span style="color:#fbbf24">★</span><span style="color:#fbbf24">★</span><span style="color:#fbbf24">★</span><span style="color:#fbbf24">★</span><span style="color:var(--muted2)">★</span>
+          </div>
+          <div class="text-muted" style="font-size:13px">Bazat pe 5 recenzii</div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-card-header">
+          <div><div style="font-weight:600;color:var(--accent2);margin-bottom:4px">ion.client</div><div class="review-stars"><span style="color:#fbbf24">★★★★★</span></div></div>
+          <div class="review-card-meta">20.05.2025</div>
+        </div>
+        <div class="review-card-subject">Aplicație excelentă!</div>
+        <div class="review-card-body">Tot ce am nevoie într-un singur loc. Nu mai am griji cu termenele de asigurare sau ITP. Recomand cu căldură!</div>
+      </div>
+      <div class="review-card">
+        <div class="review-card-header">
+          <div><div style="font-weight:600;color:var(--accent2);margin-bottom:4px">maria.client</div><div class="review-stars"><span style="color:#fbbf24">★★★★</span><span style="color:var(--muted2)">★</span></div></div>
+          <div class="review-card-meta">15.05.2025</div>
+        </div>
+        <div class="review-card-subject">Foarte utilă</div>
+        <div class="review-card-body">Interfața este clară și ușor de folosit. Ar fi utilă și o aplicație mobilă în viitor.</div>
+      </div>
+    </div>
+
+    <!-- SUPORT -->
+    <div class="main-content content-panel" id="p-suport">
+      <div class="page-header"><h1>Tichete suport</h1></div>
+      <div class="ticket-filters">
+        <a href="#" class="ticket-filter-btn active">Toate <span class="tf-count">5</span></a>
+        <a href="#" class="ticket-filter-btn tf-nou">Noi <span class="tf-count">3</span></a>
+        <a href="#" class="ticket-filter-btn tf-lucru">În lucru <span class="tf-count">1</span></a>
+        <a href="#" class="ticket-filter-btn tf-rezolvat">Rezolvate <span class="tf-count">1</span></a>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>ID</th><th>Utilizator</th><th>Tip</th><th>Subiect</th><th>Status</th><th>Data</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="text-muted">#5</td><td><strong>ion.client</strong></td><td><span class="badge badge-RCA">Cerere mașină</span></td><td>Adaugare Logan B-999-ZZZ</td><td><span class="badge badge-accident">Nou</span></td><td class="text-muted">22.05.2025 10:14</td><td><a href="#" class="btn btn-sm btn-primary">Răspunde</a></td></tr>
+              <tr><td class="text-muted">#4</td><td><strong>maria.client</strong></td><td><span class="badge badge-revizie">Feedback</span></td><td>Aplicatie foarte utila!</td><td><span class="badge badge-reparatie">În lucru</span></td><td class="text-muted">20.05.2025 14:30</td><td><a href="#" class="btn btn-sm btn-primary">Răspunde</a></td></tr>
+              <tr><td class="text-muted">#3</td><td><strong>gh.client</strong></td><td><span class="badge badge-reparatie">Ajutor</span></td><td>Nu gasesc sectiunea de ITP</td><td><span class="badge badge-accident">Nou</span></td><td class="text-muted">19.05.2025 09:05</td><td><a href="#" class="btn btn-sm btn-primary">Răspunde</a></td></tr>
+              <tr><td class="text-muted">#1</td><td><strong>ion.client</strong></td><td><span class="badge badge-reparatie">Ajutor</span></td><td>Cum adaug o vinietă?</td><td><span class="badge badge-activ">Rezolvat</span></td><td class="text-muted">10.05.2025 11:00</td><td><a href="#" class="btn btn-sm btn-secondary">Răspunde</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- admin-content -->
+</div><!-- app-wrapper -->
+</div><!-- v-admin -->
+
+<!-- ══════════════════════════════════════
+     PORTAL CLIENT
+══════════════════════════════════════ -->
+<div id="v-client" class="view" style="background:var(--bg);min-height:100vh">
+  <nav class="portal-nav">
+    <div class="portal-nav-logo">
+      <span class="login-hero-brand-mark" style="width:32px;height:32px;border-radius:8px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a0f00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px">
+          <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+          <circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>
+        </svg>
+      </span>
+      Sibiza Park
+    </div>
+    <div class="portal-nav-user">
+      Ionescu SRL
+      <a href="#" class="btn btn-sm btn-secondary" style="margin-left:12px" onclick="showView('v-login')">Ieșire</a>
+    </div>
+  </nav>
+
+  <div class="portal-wrap">
+    <div class="page-header">
+      <h1>Bun venit, Ionescu SRL!</h1>
+      <span class="text-muted">Mașinile și documentele tale</span>
+    </div>
+
+    <!-- Mașina 1 -->
+    <div class="portal-car-card">
+      <div class="portal-car-img-placeholder">
+        <svg style="width:52px;height:52px;color:var(--muted2)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+      </div>
+      <div class="portal-car-header">
+        <div>
+          <div class="portal-car-plate">B 123 ABC</div>
+          <div class="portal-car-name">Dacia Logan · 2020</div>
+        </div>
+        <div class="text-muted" style="font-size:13px">87.340 km</div>
+      </div>
+      <div class="portal-docs">
+        <div class="portal-doc doc-ok">
+          <div class="portal-doc-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div><div class="portal-doc-name">ITP</div><div class="portal-doc-date">Expiră: 10/04/2026</div></div>
+        </div>
+        <div class="portal-doc doc-expired">
+          <div class="portal-doc-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="portal-doc-name">Asigurare RCA</div><div class="portal-doc-date">Expiră: 01/05/2025</div></div>
+        </div>
+        <div class="portal-doc doc-ok">
+          <div class="portal-doc-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+          <div><div class="portal-doc-name">Vinietă</div><div class="portal-doc-date">Expiră: 31/12/2025</div></div>
+        </div>
+      </div>
+      <div class="portal-service-row">
+        <span class="text-muted">Intrări service: <strong>12</strong></span>
+        <span class="text-muted">Cost total: <strong style="color:var(--accent2)">8.430,00 RON</strong></span>
+        <a href="#" class="btn btn-sm btn-secondary">Istoric complet →</a>
+      </div>
+    </div>
+
+    <!-- Mașina 2 -->
+    <div class="portal-car-card">
+      <div class="portal-car-img-placeholder">
+        <svg style="width:52px;height:52px;color:var(--muted2)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+      </div>
+      <div class="portal-car-header">
+        <div>
+          <div class="portal-car-plate">IS 789 GHI</div>
+          <div class="portal-car-name">Skoda Octavia · 2021</div>
+        </div>
+        <div class="text-muted" style="font-size:13px">54.200 km</div>
+      </div>
+      <div class="portal-docs">
+        <div class="portal-doc doc-ok">
+          <div class="portal-doc-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div><div class="portal-doc-name">ITP</div><div class="portal-doc-date">Expiră: 15/01/2027</div></div>
+        </div>
+        <div class="portal-doc doc-ok">
+          <div class="portal-doc-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="portal-doc-name">Asigurare RCA</div><div class="portal-doc-date">Expiră: 01/01/2026</div></div>
+        </div>
+        <div class="portal-doc">
+          <div class="portal-doc-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+          <div><div class="portal-doc-name">Vinietă</div><div class="portal-doc-date text-muted">Neînregistrat</div></div>
+        </div>
+      </div>
+      <div class="portal-service-row">
+        <span class="text-muted">Intrări service: <strong>5</strong></span>
+        <span class="text-muted">Cost total: <strong style="color:var(--accent2)">14.200,00 RON</strong></span>
+        <a href="#" class="btn btn-sm btn-secondary">Istoric complet →</a>
+      </div>
+    </div>
+
+    <!-- Butoane suport -->
+    <div class="support-buttons" style="margin-top:28px;grid-template-columns:repeat(3,1fr)">
+      <a href="#" class="support-btn">
+        <div class="support-btn-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg></div>
+        <div><div class="support-btn-label">Cerere mașină nouă</div><div class="support-btn-desc">Solicită adăugarea unei mașini</div></div>
+      </a>
+      <a href="#" class="support-btn">
+        <div class="support-btn-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div><div class="support-btn-label">Ajutor</div><div class="support-btn-desc">Ai o problemă? Scrie-ne!</div></div>
+      </a>
+      <a href="#" class="support-btn">
+        <div class="support-btn-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>
+        <div><div class="support-btn-label">Cererile mele</div><div class="support-btn-desc">Ai niciun răspuns nou</div></div>
+      </a>
+      <a href="#" class="support-btn" style="grid-column:2">
+        <div class="support-btn-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div><div class="support-btn-label">Recenzii</div><div class="support-btn-desc">Vezi ce spun alți utilizatori</div></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO BAR -->
+<div class="demo-bar">
+  <span>Preview</span>
+  <a href="#" id="btn-login" onclick="showView('v-login')" class="active">Login</a>
+  <a href="#" id="btn-admin" onclick="showView('v-admin')">Admin</a>
+  <a href="#" id="btn-client" onclick="showView('v-client')">Portal Client</a>
+</div>
+
+<script>
+function showView(id) {
+  ['v-login','v-admin','v-client'].forEach(v => {
+    const el = document.getElementById(v);
+    el.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+  // update demo bar
+  document.querySelectorAll('.demo-bar a').forEach(a => a.classList.remove('active'));
+  const key = id.replace('v-','');
+  const btn = document.getElementById('btn-' + key);
+  if (btn) btn.classList.add('active');
+}
+
+function navTo(el, panelId) {
+  // active link in sidebar
+  document.querySelectorAll('#admin-sidebar a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  // show panel
+  document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('p-' + panelId);
+  if (panel) panel.classList.add('active');
+  return false;
+}
+
+// close notif on outside click
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('notifWrap');
+  if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+});
+
+// init
+showView('v-login');
+</script>
+</body>
+</html>
